@@ -1,0 +1,289 @@
+<div class="info-page">
+  <header class="info-header">
+    <div class="header-left">
+      <span class="material-symbols-outlined info-icon-main">info</span>
+      <div class="header-titles">
+        <h1>Purchase Bills Information</h1>
+        <p>Find Information about Purchase Bills</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="header-action-btn" (click)="resetForm()">
+        <span class="material-symbols-outlined">sync</span>
+      </button>
+      <button class="header-action-btn">
+        <span class="material-symbols-outlined">add_circle</span>
+      </button>
+      <button class="header-action-btn">
+        <span class="material-symbols-outlined">check_circle</span>
+      </button>
+      <button class="header-action-btn close-btn" (click)="closePage()">
+        <span class="material-symbols-outlined">cancel</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="info-tabs">
+    <button class="tab-item" [class.active]="activeTab === 'header'" (click)="activeTab = 'header'">Header</button>
+    <button class="tab-item" [class.active]="activeTab === 'details'" (click)="activeTab = 'details'">Details</button>
+    <button class="tab-item" [class.active]="activeTab === 'notes'" (click)="activeTab = 'notes'">Notes</button>
+    <button class="tab-item" [class.active]="activeTab === 'documents'" (click)="activeTab = 'documents'">Documents</button>
+  </nav>
+
+  <div class="info-content-container">
+    @if (activeTab === 'details') {
+      <div class="details-main-layout">
+        <div class="details-left-panel">
+          <nav class="sub-tabs">
+            <button class="sub-tab-item" [class.active]="activeSubTab === 'items'" (click)="activeSubTab = 'items'">Items</button>
+            <button class="sub-tab-item" [class.active]="activeSubTab === 'accounts'" (click)="activeSubTab = 'accounts'">Accounts</button>
+            <button class="sub-tab-item" [class.active]="activeSubTab === 'taxes'" (click)="activeSubTab = 'taxes'">Taxes</button>
+          </nav>
+
+          @if (activeSubTab === 'items') {
+            <div class="items-card">
+              <div class="items-form">
+                <div class="form-row">
+                  <div class="form-group flex-2">
+                    <label>Item <span class="required">*</span></label>
+                    <div class="input-with-icon">
+                      <input type="text" [(ngModel)]="formItem" placeholder="Enter item name"/>
+                      <span class="material-symbols-outlined input-action-icon">list_alt</span>
+                    </div>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Batch</label>
+                    <select [(ngModel)]="formBatch">
+                      <option value="BATCH001">BATCH001</option>
+                      <option value="BATCH002">BATCH002</option>
+                      <option value="BATCH003">BATCH003</option>
+                      <option value="BATCH010">BATCH010</option>
+                      <option value="BATCH011">BATCH011</option>
+                    </select>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Standard Cost</label>
+                    <input type="number" [(ngModel)]="formStandardCost" (input)="calculateFields()" class="text-right" step="0.01"/>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label class="label-with-badge">
+                      Standard Price
+                      <span class="new-price-badge">New +</span>
+                    </label>
+                    <input type="number" [(ngModel)]="formStandardPrice" (input)="calculateFields()" class="text-right" step="0.01"/>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Margin</label>
+                    <input type="number" [value]="formMargin" class="text-right disabled-input" readonly/>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Qty</label>
+                    <input type="number" [(ngModel)]="formQty" (input)="calculateFields()"/>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Free Qty</label>
+                    <input type="number" [(ngModel)]="formFreeQty"/>
+                  </div>
+                </div>
+                <div class="form-row mt-4">
+                  <div class="form-group flex-1">
+                    <label>Discount</label>
+                    <input type="number" [(ngModel)]="formDiscount" class="text-right" step="0.01"/>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Total Cost</label>
+                    <input type="number" [value]="formTotalCost" class="text-right disabled-input" readonly/>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Total Selling</label>
+                    <input type="number" [value]="formTotalSelling" class="text-right disabled-input" readonly/>
+                  </div>
+                  <div class="form-group btn-group flex-1">
+                    <button class="add-item-btn" (click)="addItem()">Add +</button>
+                  </div>
+                  <div class="flex-3"></div>
+                </div>
+              </div>
+
+              <div class="items-table-container">
+                <table class="items-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Batch</th>
+                      <th class="text-right">Standard Cost</th>
+                      <th class="text-right">Standard Price</th>
+                      <th class="text-right">Margin</th>
+                      <th class="text-right">Qty</th>
+                      <th class="text-right">Free Qty</th>
+                      <th class="text-right">Discount</th>
+                      <th class="text-right">Total Cost</th>
+                      <th class="text-right">Total Selling</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (item of items; track $index) {
+                      <tr>
+                        <td>{{ item.item }}</td>
+                        <td>{{ item.batch }}</td>
+                        <td class="text-right">${{ item.standardCost | number:'1.2-2' }}</td>
+                        <td class="text-right">${{ item.standardPrice | number:'1.2-2' }}</td>
+                        <td class="text-right">${{ item.margin | number:'1.2-2' }}</td>
+                        <td class="text-right">{{ item.qty }}</td>
+                        <td class="text-right">{{ item.freeQty }}</td>
+                        <td class="text-right">${{ item.discount | number:'1.2-2' }}</td>
+                        <td class="text-right font-medium text-slate-700">${{ item.totalCost | number:'1.2-2' }}</td>
+                        <td class="text-right font-medium text-slate-700">${{ item.totalSelling | number:'1.2-2' }}</td>
+                      </tr>
+                    } @empty {
+                      <tr>
+                        <td colspan="10" class="empty-table-state">No items added yet. Fill the form above and click Add.</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          } @else if (activeSubTab === 'accounts') {
+            <div class="placeholder-tab-content">
+              <span class="material-symbols-outlined placeholder-icon">account_balance_wallet</span>
+              <h3>Accounts Information</h3>
+              <p>Accounting codes, cost centers, and ledger distributions are managed here.</p>
+            </div>
+          } @else if (activeSubTab === 'taxes') {
+            <div class="placeholder-tab-content">
+              <span class="material-symbols-outlined placeholder-icon">percent</span>
+              <h3>Tax Information</h3>
+              <p>Taxes breakdown, VAT rates, and suspended taxes configurations are managed here.</p>
+            </div>
+          }
+        </div>
+
+        <aside class="summary-sidebar">
+          <div class="summary-card-header">
+            <span class="material-symbols-outlined summary-icon">description</span>
+            <h2>Summary</h2>
+          </div>
+          <div class="summary-section">
+            <div class="section-title">
+              Item Summary
+              <span class="material-symbols-outlined info-badge-icon">info</span>
+            </div>
+            <div class="summary-row">
+              <span>Total Items</span>
+              <span class="value">{{ summaryTotalItems }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Total Qty</span>
+              <span class="value">{{ summaryTotalQty }}</span>
+            </div>
+          </div>
+          <div class="summary-section">
+            <div class="section-title">Financial Summary</div>
+            <div class="summary-row">
+              <span>Gross Total</span>
+              <span class="value">{{ summaryGrossTotal | number:'1.2-2' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Item Discount</span>
+              <span class="value">{{ summaryItemDiscount | number:'1.2-2' }}</span>
+            </div>
+            <div class="summary-row">
+              <span class="flex-align-center">
+                Overall Discount
+                <span class="material-symbols-outlined overall-disc-add-icon">add_circle</span>
+              </span>
+              <span class="value">{{ summaryOverallDiscount | number:'1.2-2' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Total Discounts</span>
+              <span class="value">{{ summaryTotalDiscounts | number:'1.2-2' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Total Before Tax</span>
+              <span class="value">{{ summaryTotalBeforeTax | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="summary-section">
+            <div class="section-title">
+              Tax Summary
+              <span class="material-symbols-outlined info-badge-icon">info</span>
+            </div>
+            <div class="summary-row">
+              <span>Total Tax</span>
+              <span class="value">{{ summaryTotalTax | number:'1.2-2' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Suspended Tax</span>
+              <span class="value">{{ summarySuspendedTax | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="summary-section net-total-section">
+            <div class="section-title">Net Total</div>
+            <div class="net-total-value">
+              <span class="currency">Rs.</span>
+              <span class="amount">{{ summaryNetTotal | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    } @else if (activeTab === 'header') {
+      <div class="header-tab-content">
+        <div class="form-container-card">
+          <h2>Purchase Bill General Details</h2>
+          <div class="general-details-grid">
+            <div class="detail-field">
+              <span class="label">Purchase Bill ID:</span>
+              <span class="value font-bold text-blue-600">{{ bill ? bill.id : 'New' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="label">Date:</span>
+              <span class="value">{{ bill ? bill.date : 'Today' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="label">Reference:</span>
+              <span class="value">{{ bill ? bill.reference : 'New Reference' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="label">Remark:</span>
+              <span class="value">{{ bill ? bill.remark : 'No remark' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="label">Supplier:</span>
+              <span class="value">{{ bill ? bill.supplier : 'ABC Company' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="label">Employee:</span>
+              <span class="value">{{ bill ? bill.employee : 'John Doe' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="label">Location:</span>
+              <span class="value">{{ bill ? bill.location : 'Main Branch' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="label">Due Date:</span>
+              <span class="value">{{ bill ? bill.dueDate : '30 Days' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else if (activeTab === 'notes') {
+      <div class="notes-tab-content">
+        <div class="notes-card">
+          <h2>Notes & Special Instructions</h2>
+          <textarea class="notes-textarea" placeholder="Add custom notes or special terms about this purchase bill..."></textarea>
+          <button class="save-notes-btn">Save Notes</button>
+        </div>
+      </div>
+    } @else if (activeTab === 'documents') {
+      <div class="documents-tab-content">
+        <div class="upload-card">
+          <span class="material-symbols-outlined upload-icon">cloud_upload</span>
+          <h2>Upload Documents</h2>
+          <p>Drag and drop supplier invoices, cargo receipts, or purchase orders here to attach them to this bill.</p>
+          <button class="browse-btn">Browse Files</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

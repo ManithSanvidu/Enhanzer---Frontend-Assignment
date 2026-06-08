@@ -1,0 +1,175 @@
+.topbar {
+  height: 50px;
+  background-color: #0f75bc;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.logo-svg {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.breadcrumb-icon {
+  font-size: 16px;
+}
+
+.separator {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 11px;
+}
+
+.breadcrumb-item.active {
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.star-icon {
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s;
+}
+
+.star-icon:hover {
+  color: #f59e0b;
+}
+
+.star-icon.favorite {
+  color: #f59e0b;
+  font-variation-settings: 'FILL' 1;
+}
+
+.add-shortcut-icon {
+  font-size: 16px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s;
+}
+
+.add-shortcut-icon:hover {
+  color: #00ffcc;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.org-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.org-selector:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.org-icon {
+  font-size: 15px;
+}
+
+.dropdown-arrow {
+  font-size: 16px;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+  transition: color 0.2s;
+  position: relative;
+}
+
+.icon-btn:hover {
+  color: #ffffff;
+}
+
+.icon-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.notification-btn {
+  margin-right: 2px;
+}
+
+.notification-btn .badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 3px;
+  border-radius: 8px;
+  min-width: 10px;
+  text-align: center;
+}
+
+.user-profile {
+  cursor: pointer;
+}
+
+.user-profile .avatar {
+  width: 26px;
+  height: 26px;
+  background-color: #f59e0b;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}

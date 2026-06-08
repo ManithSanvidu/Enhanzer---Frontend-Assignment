@@ -1,0 +1,109 @@
+<div class="dashboard-shell">
+  <app-topbar></app-topbar>
+  <div class="dashboard-body">
+    <app-sidebar></app-sidebar>
+    <main class="dashboard-content">
+      <div class="control-panel">
+        <div class="filter-tabs">
+          <button class="tab-btn" [class.active]="selectedStatus() === 'all'" (click)="selectStatus('all')">
+            All <span class="count">{{ counts().all }}</span>
+          </button>
+          <button class="tab-btn" [class.active]="selectedStatus() === 'draft'" (click)="selectStatus('draft')">
+            <span class="status-dot draft"></span>
+            Draft <span class="count">{{ counts().draft }}</span>
+          </button>
+          <button class="tab-btn" [class.active]="selectedStatus() === 'pending'" (click)="selectStatus('pending')">
+            <span class="status-dot pending"></span>
+            Pending <span class="count">{{ counts().pending }}</span>
+          </button>
+          <button class="tab-btn" [class.active]="selectedStatus() === 'completed'" (click)="selectStatus('completed')">
+            <span class="status-dot completed"></span>
+            Completed <span class="count">{{ counts().completed }}</span>
+          </button>
+          <button class="tab-btn" [class.active]="selectedStatus() === 'rejected'" (click)="selectStatus('rejected')">
+            <span class="status-dot rejected"></span>
+            Rejected <span class="count">{{ counts().rejected }}</span>
+          </button>
+          <button class="tab-btn" [class.active]="selectedStatus() === 'cancelled'" (click)="selectStatus('cancelled')">
+            <span class="status-dot cancelled"></span>
+            Cancelled <span class="count">{{ counts().cancelled }}</span>
+          </button>
+        </div>
+        <div class="search-pagination-container">
+          <div class="search-box">
+            <input type="text" placeholder="Search ..." [value]="searchQuery()" (input)="onSearch($event)"/>
+            <span class="material-symbols-outlined search-icon">search</span>
+          </div>
+          <div class="pagination">
+            <button class="pager-btn" (click)="firstPage()" [disabled]="currentPage() === 1">
+              <span class="material-symbols-outlined">first_page</span>
+            </button>
+            <button class="pager-btn" (click)="prevPage()" [disabled]="currentPage() === 1">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <span class="current-page-num">{{ currentPage() }}</span>
+            <button class="pager-btn" (click)="nextPage()" [disabled]="currentPage() >= totalPages()">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+            <button class="pager-btn" (click)="lastPage()" [disabled]="currentPage() >= totalPages()">
+              <span class="material-symbols-outlined">last_page</span>
+            </button>
+            <button class="pager-btn menu-dots">
+              <span class="material-symbols-outlined">more_horiz</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th class="col-id">ID</th>
+              <th class="col-date">Date</th>
+              <th>Reference 1</th>
+              <th>Remark 1</th>
+              <th>Supplier</th>
+              <th>Employee 1</th>
+              <th class="text-right">Amount</th>
+              <th class="text-right">Paid</th>
+              <th class="text-right">Due</th>
+              <th>Location</th>
+              <th>Due Date</th>
+              <th>Updated on</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (bill of paginatedBills(); track bill.id) {
+              <tr class="table-row" (click)="viewBillDetails(bill)">
+                <td class="col-id">
+                  <span class="row-status-dot" [style.background-color]="getStatusDotColor(bill.status)"></span>
+                  {{ bill.id }}
+                </td>
+                <td class="col-date">{{ bill.date }}</td>
+                <td class="font-medium text-slate-700">{{ bill.reference }}</td>
+                <td class="text-slate-500">{{ bill.remark }}</td>
+                <td>{{ bill.supplier }}</td>
+                <td>{{ bill.employee }}</td>
+                <td class="text-right font-medium">{{ bill.amount | number:'1.2-2' }}</td>
+                <td class="text-right text-emerald-600">{{ bill.paid | number:'1.2-2' }}</td>
+                <td class="text-right text-rose-500">{{ bill.due | number:'1.2-2' }}</td>
+                <td>{{ bill.location }}</td>
+                <td>{{ bill.dueDate }}</td>
+                <td class="col-updated">
+                  <div class="updated-cell">
+                    <span class="user-avatar" [style.background-color]="bill.avatarColor">{{ bill.updatedBy }}</span>
+                    <span class="timestamp-text">{{ bill.updatedOn }}</span>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="12" class="empty-state">No purchase bills found matching filters.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>

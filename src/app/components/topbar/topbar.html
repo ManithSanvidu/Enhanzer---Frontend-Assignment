@@ -1,0 +1,41 @@
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo-area" routerLink="/dashboard">
+      <svg class="logo-svg" viewBox="0 0 24 24" width="24" height="24">
+        <path d="M4 6l6 6-6 6M10 6l6 6-6 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="19" cy="12" r="2.5" fill="#00ffcc"/>
+      </svg>
+      <span class="logo-text">eZuite</span>
+    </div>
+    <div class="breadcrumbs">
+      <span class="breadcrumb-item icon-container">
+        <span class="material-symbols-outlined breadcrumb-icon">monetization_on</span>
+        Finance
+      </span>
+      <span class="separator">&gt;</span>
+      <span class="breadcrumb-item active" routerLink="/dashboard">Purchase Bills</span>
+      <span class="material-symbols-outlined star-icon" [class.favorite]="isFavorite" (click)="toggleFavorite()">star</span>
+      <span class="material-symbols-outlined add-shortcut-icon" routerLink="/purchase-info">add_circle</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="org-selector">
+      <span class="material-symbols-outlined org-icon">domain</span>
+      <span class="org-name">My Organization</span>
+      <span class="material-symbols-outlined dropdown-arrow">arrow_drop_down</span>
+    </div>
+    <div class="icon-btn notification-btn">
+      <span class="material-symbols-outlined">notifications</span>
+      <span class="badge">29</span>
+    </div>
+    <div class="icon-btn">
+      <span class="material-symbols-outlined">tune</span>
+    </div>
+    <div class="icon-btn">
+      <span class="material-symbols-outlined">help</span>
+    </div>
+    <div class="user-profile">
+      <div class="avatar">L</div>
+    </div>
+  </div>
+</div>
